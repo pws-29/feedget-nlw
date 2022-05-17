@@ -18,6 +18,7 @@ export function FeedbackContentStep({
   const feebackTypeInfo = feedbackTypes[feedbackType];
   const [screenshot, setScreenshot] = useState<string | null>(null);
   const [comment, setComment] = useState('');
+  const [isTakingScreenshot, setIsTakingScreenshot] = useState(false);
 
   function handleSubmitFeedback(event: FormEvent) {
     event.preventDefault();
@@ -60,12 +61,14 @@ export function FeedbackContentStep({
           <ScreenshotButton
             screenshot={screenshot}
             setScreenshot={setScreenshot}
+            setIsTakingScreenshot={setIsTakingScreenshot}
+            isTakingScreenshot={isTakingScreenshot}
           />
 
           <button
             type="submit"
             className="p-2 bg-brand-500 rounded-md border-transparent flex-1 flex justify-center items-center text-sm hover:bg-brand-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-zinc-900 focus:ring-brand-500 transition-colors disabled:opacity-50 disabled:hover:bg-brand-500"
-            disabled={comment.length === 0}
+            disabled={comment.length === 0 || isTakingScreenshot}
           >
             Enviar feedback
           </button>
