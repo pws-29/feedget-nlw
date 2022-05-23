@@ -6,13 +6,16 @@ import { Loading } from './Loading';
 interface ScreenshotButtonProps {
   screenshot: string | null;
   setScreenshot: (screenshot: string | null) => void;
+  setIsTakingScreenshot: (isTakingScreenshot: boolean) => void;
+  isTakingScreenshot: boolean;
 }
 
 export default function ScreenshotButton({
   screenshot,
-  setScreenshot
+  setScreenshot,
+  setIsTakingScreenshot,
+  isTakingScreenshot
 }: ScreenshotButtonProps) {
-  const [isTakingScreenshot, setIsTakingScreenshot] = useState(false);
 
   async function handleTakeScreenshot() {
     setIsTakingScreenshot(true);
@@ -23,10 +26,12 @@ export default function ScreenshotButton({
     const base64image = canvas.toDataURL('image/png');
 
 
-    setScreenshot(base64image);
-    setIsTakingScreenshot(false);
-  }
 
+    setTimeout(() => {
+      setScreenshot(base64image);
+      setIsTakingScreenshot(false);
+    }, 700)
+  }
   // Caso a screenshot tenha sido tirada
   if (screenshot) {
     return (
@@ -35,7 +40,7 @@ export default function ScreenshotButton({
         className='p-1 w-10 h-10 rounded-md border-transparent flex justify-end items-end text-zinc-400 hover:text-zinc-100 transition-colors'
         onClick={() => setScreenshot(null)}
         style={{
-          backgroundImage: `url(${screenshot})`,
+          backgroundImage: `url(${isTakingScreenshot ? null : screenshot})`,
           backgroundPosition: 'right bottom',
           backgroundSize: 180,
         }}
