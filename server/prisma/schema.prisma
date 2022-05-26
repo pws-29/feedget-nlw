@@ -1,0 +1,24 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// Criar tabela no BD;
+// Conversão automática dos tipos;
+// npx prisma migrate dev para criar tabela no banco de dados. Cria também pasta migrations com instrução da tabela de dados;
+// Migrations: forma de manter controle de versão do banco de dados. Histórico de todas as alterações feitas no banco de dados (desfazer coisas de forma simples e não acessar banco de dados em produção para criar novas tabelas. As migrations são criadas em desenvolvimento e executadas em produção);
+model Feedback {
+  id         String  @id @default(uuid())
+  type       String
+  comment    String
+  screenshot String?
+
+  @@map("feedbacks")
+}
